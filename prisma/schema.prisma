@@ -11,12 +11,27 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+model Draft {
+  idDraft String @id @default(uuid())
+  name String
+  description String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  collections Collection[]
+ 
+}
+
 model Collection {
   idCollection String @id @default(uuid())
   name String
   description String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  idDraft String
+  draft Draft @relation(fields: [idDraft], references: [idDraft])
+
 
   fields Field[]
 }
@@ -25,6 +40,7 @@ model Field {
   idField String @id @default(uuid())
   name String
   description String?
+  settings Json
 
   idCollection String
   collection Collection @relation(fields: [idCollection], references: [idCollection])
