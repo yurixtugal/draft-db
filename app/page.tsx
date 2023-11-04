@@ -3,7 +3,7 @@ import MermaidDiagram from '@/components/panel/mermaid-poc'
 import { db } from '@/lib/db'
 import dynamic from 'next/dynamic'
 
-const ComponentC = dynamic(() => import('../components/panel/mermaid-poc'), { ssr: false })
+const ComponentC = dynamic(() => import('../components/panel/mermaid-flow' ), { ssr: false })
 
 
 export default async function Home() {
