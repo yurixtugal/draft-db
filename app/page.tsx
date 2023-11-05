@@ -1,6 +1,10 @@
 import DrawDraft from '@/components/panel/draw-draft'
+import MermaidDiagram from '@/components/panel/mermaid-poc'
 import { db } from '@/lib/db'
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
+const ComponentC = dynamic(() => import('../components/panel/mermaid-flow' ), { ssr: false })
+
 
 export default async function Home() {
   const idDraft = "883201b1-4644-4da5-aed9-9bca62910bd1"
@@ -27,6 +31,10 @@ export default async function Home() {
 
   console.log(draft)
   return (
-    <div><DrawDraft draft={draft}/></div>
+    <div>
+        <DrawDraft draft={draft}/>
+        <ComponentC/>
+    </div>
   )
 }
+
