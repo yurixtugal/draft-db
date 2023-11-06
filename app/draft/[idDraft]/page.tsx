@@ -6,9 +6,13 @@ const ComponentC = dynamic(() => import("@/components/panel/mermaid-flow"), {
   ssr: false,
 });
 
-export default async function Draft() {
-  const idDraft = "883201b1-4644-4da5-aed9-9bca62910bd1";
-
+export default async function Draft({
+  params,
+}: {
+  params: { idDraft: string };
+}) {
+  const idDraft = params.idDraft;
+  console.log(idDraft);
   const draft = await db.draft.findUnique({
     include: {
       collections: {
