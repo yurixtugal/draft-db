@@ -43,7 +43,7 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
       </h2>
       <div className={`${showDraft ? "" : "hidden"}`}>
         {arrDrafts.map((draft, index) => {
-          const LucideIcon = icons[draft.icon];
+          const LucideIcon = icons[draft.icon as keyof typeof icons];
           return (
           <Link
             href={`/draft/${draft.idDraft}`}
