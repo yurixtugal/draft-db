@@ -3,6 +3,8 @@
 import React, { useEffect } from "react";
 import mermaid from "mermaid";
 import { DraftWithCollection } from "@/types/types";
+import {parseToMermaid} from "@/lib/mermaidUtils/util";
+
 
 interface DrawDraftInterface {
   draft: DraftWithCollection;
@@ -18,7 +20,7 @@ const MermaidComponent = ( {draft}: DrawDraftInterface ) => {
     securityLevel: "loose",
 });
 
-
+/*
 const mermaidCode = `
 erDiagram
 CAR ||--o{ NAMED-DRIVER : allows
@@ -34,7 +36,9 @@ PERSON {
     int age
 }
 
-        `;
+        `;*/
+  const mermaidCode = parseToMermaid({draft});
+
   useEffect(() => {
     mermaid.contentLoaded();
   }
