@@ -1,7 +1,8 @@
+import { DraftWithCollection } from "@/types/types";
 import { Draft } from "@prisma/client";
 
 interface DrawDraftInterface {
-  draft: Draft;
+  draft: DraftWithCollection;
 }
 
 const DrawDraft = ({draft}: DrawDraftInterface) => {

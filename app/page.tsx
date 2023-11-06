@@ -3,8 +3,7 @@ import MermaidDiagram from '@/components/panel/mermaid-poc'
 import { db } from '@/lib/db'
 import dynamic from 'next/dynamic'
 
-const ComponentC = dynamic(() => import('../components/panel/mermaid-flow' ), { ssr: false })
-
+const ComponentC = dynamic(() => import('@/components/panel/mermaid-flow' ), { ssr: false })
 
 export default async function Home() {
   const idDraft = "883201b1-4644-4da5-aed9-9bca62910bd1"
@@ -18,6 +17,16 @@ export default async function Home() {
             include: {
               typeField: true
             }
+          },
+          relationCollectionFrom: {
+            include:{
+              typeRelation: true
+            }
+          },
+          relationCollectionTo: {
+            include:{
+              typeRelation: true
+            }
           }
         }
       }
@@ -29,11 +38,10 @@ export default async function Home() {
 
   if (!draft) return <div>Not found</div>
 
-  console.log(draft)
   return (
     <div>
         <DrawDraft draft={draft}/>
-        <ComponentC/>
+        <ComponentC draft={draft}/>
     </div>
   )
 }
