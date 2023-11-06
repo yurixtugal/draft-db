@@ -12,8 +12,6 @@ interface DrawDraftInterface {
 
 const MermaidComponent = ( {draft}: DrawDraftInterface ) => {
 
-  console.log(draft)
-
   mermaid.initialize({
     startOnLoad: true,
     theme: "default",
