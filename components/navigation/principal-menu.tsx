@@ -33,7 +33,7 @@ const routes = [
   {routes.map((route, index) => (
     <Link href={route.href} key={index} className={`w-full text-md font-semibold pl-2 mb-1 flex items-center h-12 border-neutral-800
     rounded-xl
-    hover:bg-zinc-700/50 transition ${route.isActive?'bg-zinc-700/60':''}`}>
+    hover:bg-zinc-700/50 transition ${route.isActive?'bg-zinc-700/60':'text-neutral-400'}`}>
       {route.icon}<span className="ml-3">{route.label}</span>
     </Link>
   ))}
