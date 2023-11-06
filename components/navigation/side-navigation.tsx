@@ -7,7 +7,7 @@ interface SideBarNavigationProps {
 }
 
 const SideBarNavigation = ({arrDrafts}: SideBarNavigationProps) => {
-  return <div>
+  return <div className="mx-3">
     <PrincipalMenu />
     <DraftMenu arrDrafts={arrDrafts}/>
   </div>
