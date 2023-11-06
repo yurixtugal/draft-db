@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import SideBarNavigation from '@/components/navigation/side-navigation'
 import { db } from '@/lib/db'
+import Image from 'next/image'
+import Logo from '@/components/navigation/logo'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,8 +25,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <div className="h-full">
-      <div className="hidden md:flex h-full w-[300px] flex-col fixed z-30 inset-y-0 bg-yellow-400">
+      <div className="hidden md:flex h-full w-[300px] flex-col fixed z-30 inset-y-0 bg-[#2B2D31] text-neutral-300">
+        
+        <Logo />
         <SideBarNavigation arrDrafts={arrDrafts}/>
+        
       </div>
       <main className="md:pl-[300px] h-full">{children}</main>
     </div>
