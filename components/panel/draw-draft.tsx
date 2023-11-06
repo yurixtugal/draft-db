@@ -14,7 +14,7 @@ const DrawDraft = ({draft}: DrawDraftInterface) => {
           <div>Drawing draft for {draft.name}</div>
           <div>Mermaid code: 
               <br></br>
-              <textarea className="resize-y resize-x rounded-md" cols={30} rows={20} value={mermaidCode}></textarea>
+              <textarea className="resize rounded-md" cols={50} rows={10} value={mermaidCode}></textarea>
           </div>
         </>
 }
