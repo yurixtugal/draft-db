@@ -20,3 +20,6 @@ type CollectionWithAll = Collection & {
 
 
 export type { DraftWithCollection };
+export type { CollectionWithAll };
+export type { FieldWithTypes };
+export type { RelationWithTypes };
