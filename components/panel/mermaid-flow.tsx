@@ -2,9 +2,15 @@
 
 import React, { useEffect } from "react";
 import mermaid from "mermaid";
+import { DraftWithCollection } from "@/types/types";
 
+interface DrawDraftInterface {
+  draft: DraftWithCollection;
+}
 
-const MermaidComponent = () => {
+const MermaidComponent = ( {draft}: DrawDraftInterface ) => {
+
+  console.log(draft)
 
   mermaid.initialize({
     startOnLoad: true,
