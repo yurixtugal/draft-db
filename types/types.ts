@@ -6,6 +6,12 @@ type DraftWithCollection = Draft & {
 
 type FieldWithTypes = Field & {
   typeField: TypeField;
+} & {
+  settings: {
+    length?: number;
+    isRequired?: boolean;
+    isPK?: boolean;
+  }
 }
 
 type RelationWithTypes = RelationCollection & {

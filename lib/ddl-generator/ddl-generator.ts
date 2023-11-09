@@ -1,16 +1,51 @@
 
-import { CollectionWithAll, DraftWithCollection } from "@/types/types";
+import { CollectionWithAll, DraftWithCollection, FieldWithTypes, RelationWithTypes } from "@/types/types";
 import slug from "slug";
 
+const RelationWithTypes = {
+  SINGLE_RELATION_ONE_TO_MANY: "SINGLE_RELATION_ONE_TO_MANY"
+}
 
+const createRelationMysql = (collection: CollectionWithAll[], relation: RelationWithTypes) => {
+  console.log(relation)
+  let sql = ``;
+  const collectionFrom = collection.find((c)=> c.idCollection === relation.idCollectionFrom);
+  const collectionTo = collection.find((c)=> c.idCollection === relation.idCollectionTo);
+  if (!collectionFrom || !collectionTo) return ``
+  const typeRelation = relation.typeRelation;
+  const tableFrom = convertToPascalCase(collectionFrom.name);
+  const tableTo = convertToPascalCase(collectionTo.name);
+  const pkFrom = collectionFrom.fields.find((f) => f.settings.isPK)?.name;
+  const pkTo = collectionTo.fields.find((f) => f.settings.isPK)?.name;
 
-const createTable = (collection: CollectionWithAll) => {
+  if (typeRelation.staticId === RelationWithTypes.SINGLE_RELATION_ONE_TO_MANY) {
+    sql = `ALTER TABLE ${tableTo} ADD CONSTRAINT ${tableTo}_${tableFrom}_fk FOREIGN KEY (${relation.nameFieldSingle}) REFERENCES ${tableFrom}(${pkFrom});`;
+  }
+
+  return sql;
+}
+
+const generateDataTypeMysql = (field: FieldWithTypes) => {
+  let dataType = field.typeField.mysqlDataType;
+  const fieldSettings = field.settings;
+  
+  dataType += fieldSettings?.length ? `(${fieldSettings.length})` : '';
+  dataType += fieldSettings?.isRequired ? ` NOT NULL` : '';
+  dataType += fieldSettings?.isPK ? ` PRIMARY KEY` : '';
+  
+  return dataType;
+}
+
+const createTableMysql = (collection: CollectionWithAll) => {
   const { name, fields } = collection;
-  let sql = `CREATE TABLE IF NOT EXISTS ${name} (`;
+  const nameTable = convertToPascalCase(name);
+  let sql = `CREATE TABLE IF NOT EXISTS ${nameTable} (\n`;
   fields.forEach((field) => {
-    sql += `${field.name} ${field.typeField.name},`;
+    const dataType = generateDataTypeMysql(field);
+    const nameField = convertToPascalCase(field.name);
+    sql += `${nameField} ${dataType},\n`;
   });
-  sql = sql.slice(0, -1);
+  sql = sql.slice(0, -2);
   sql += `);`;
   return sql;
 }
@@ -29,21 +64,26 @@ const addComment = (sql: string, comment: string) => {
 
 
 const generateDDL = (draft : DraftWithCollection) => {
-  let ddlStatement = createSchema(convertToPascalCase(slug(draft.name)));
+  let schemaName = convertToPascalCase(draft.name)
+  let ddlStatement = createSchema(schemaName);
   ddlStatement = addBreakingLine(ddlStatement);
   ddlStatement = addBreakingLine(ddlStatement);
-  ddlStatement = addComment(ddlStatement, `Create tables statements for ${draft.name}`);
+  ddlStatement = addComment(ddlStatement, `Create tables statements for ${schemaName}`);
   ddlStatement = addBreakingLine(ddlStatement);
   draft.collections.forEach((collection) => {
-    ddlStatement += createTable(collection);
+    ddlStatement += createTableMysql(collection);
     ddlStatement = addBreakingLine(ddlStatement);
     ddlStatement = addBreakingLine(ddlStatement);
+    collection.relationCollectionFrom.forEach((relation) => {
+      ddlStatement += createRelationMysql(draft.collections, relation);
+    })
   });
+  
   return ddlStatement;
 }
 
-const convertToPascalCase = (str: string) => {
-  return str.replace(/\w+/g, (w) => w[0].toUpperCase() + w.slice(1).toLowerCase());
+const convertToPascalCase = (text: string) => {
+  return text.split(" ").map((word) => word[0].toUpperCase() + word.slice(1)).join("");
 }
 
-export { createTable, generateDDL };
+export { createTableMysql, generateDDL };
