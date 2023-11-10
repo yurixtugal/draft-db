@@ -1,115 +1,114 @@
-import { DraftWithCollection, CollectionWithAll,RelationWithTypes } from "@/types/types";
+import {
+  DraftWithCollection,
+  CollectionWithAll,
+  RelationWithTypes,
+} from "@/types/types";
+import mermaid from "mermaid";
 
 interface DrawDraftInterface {
-    draft: DraftWithCollection;
-  }
+  draft: DraftWithCollection;
+}
 
-export function parseToMermaid({draft}: DrawDraftInterface): string{
+const relationMap = {
+  "SINGLE_RELATION_ZERO_TO_ONE": "|o -- ||",
+  "SINGLE_RELATION_ONE_TO_ONE": "|| -- ||",
+  "SINGLE_RELATION_ZERO_TO_MANY": "|o -- o{",
+  "SINGLE_RELATION_ONE_TO_MANY": "|| -- o{",
+  "MULTI_RELATION_MANY_TO_MANY": "o{ -- o{",
+}
 
-  let mermaidLanguage: string;
 
-  mermaidLanguage="erDiagram  \n";
+export function parseToMermaid({ draft }: DrawDraftInterface): string {
+  let mermaidLanguage = `erDiagram  \n`;
 
-  //Comenzamos a parsear las colecciones y sus relaciones
-  for (let x=0; x< draft.collections.length; x++ ){
-    let coleccion= draft.collections[x];
-    mermaidLanguage= mermaidLanguage + parseCollection(coleccion);
-    //Una vez parseada la coleccion, vamos por las relaciones de dicha coleccion
-    mermaidLanguage= mermaidLanguage + parseRelations(coleccion.relationCollectionFrom, draft.collections);
-  }
+  //Start to parse the draft and its relations
+  draft.collections.forEach((collection) => {
+    mermaidLanguage += parseCollection(collection);
+    // once collection is pared, go for its collection's relations
+    mermaidLanguage += parseRelations(
+      collection.relationCollectionFrom,
+      draft.collections
+    );
+  });
 
-  //console.log( mermaidLanguage );
   return mermaidLanguage;
 }
 
-function findCollection (collections: CollectionWithAll[], idCollection:string ): CollectionWithAll | undefined{
-
-  return collections.find( ( collection) =>{ return collection.idCollection==idCollection; } )
-
+function findCollection(
+  collections: CollectionWithAll[],
+  idCollection: string
+): CollectionWithAll | undefined {
+  return collections.find((collection) => {
+    return collection.idCollection === idCollection;
+  });
 }
 
-function parseNombreCollection(collection: CollectionWithAll):string{
-  return '"' + collection.name + '"' ;
+function parseNameCollection(collection: CollectionWithAll): string {
+  return `"${collection.name}"`;
 }
 
-function parseRelation(relation: RelationWithTypes, collections: CollectionWithAll[]):string {
-  let mermaidLanguage:string = "";
-  //Valido que la relacion tenga la data necesaria
-  if (relation.idCollectionFrom && relation.idCollectionTo && relation.typeRelation){
-    let collectionFrom=findCollection(collections, relation.idCollectionFrom );
-    let collectionTo=findCollection(collections, relation.idCollectionTo );
-    let tipoRelacion= relation.typeRelation.staticId;
-    //Si se encontraron las colleciones referenciadas, procedo a crear la relacion
-    if (collectionFrom && collectionTo && tipoRelacion){
-      let relacion:string = "";
-      switch (tipoRelacion) {
-        case "SINGLE_RELATION_ZERO_TO_ONE":
-          relacion="|o -- ||";
-          break;
-        case "SINGLE_RELATION_ONE_TO_ONE":
-          relacion="|| -- ||";
-          break;
-        case "SINGLE_RELATION_ZERO_TO_MANY":
-          relacion="|o -- o{";
-          break;
-        case "SINGLE_RELATION_ONE_TO_MANY":
-          relacion="|| -- o{";
-          break;
+function parseRelation(
+  relation: RelationWithTypes,
+  collections: CollectionWithAll[]
+): string {
+  let mermaidLanguage: string = "";
+  //validate structure relation
+  if (
+    relation.idCollectionFrom &&
+    relation.idCollectionTo &&
+    relation.typeRelation
+  ) {
+    let collectionFrom = findCollection(collections, relation.idCollectionFrom);
+    let collectionTo = findCollection(collections, relation.idCollectionTo);
+    let relationType = relation.typeRelation.staticId;
+    //create relations in mermaid, if collectionFrom and To exist
+    
 
+    if (collectionFrom && collectionTo && relationType) {
+      let relation = relationMap[relationType as keyof typeof relationMap];
+
+      if (relation) {
+        mermaidLanguage += ` ${parseNameCollection(collectionFrom)} ${relation} ${parseNameCollection(collectionTo)} :""`; 
       }
-
-      if (relacion!=""){
-        mermaidLanguage = mermaidLanguage + parseNombreCollection(collectionFrom) + " " + relacion + " " + parseNombreCollection(collectionTo);
-        mermaidLanguage = mermaidLanguage + " : " + '""'
-      }
-
     }
   }
 
   return mermaidLanguage;
 }
 
-function parseRelations(relations: RelationWithTypes[], collections: CollectionWithAll[]):string {
+function parseRelations(
+  relations: RelationWithTypes[],
+  collections: CollectionWithAll[]
+): string {
+  let mermaidLanguage = ``;
   
-  let mermaidLanguage:string = "";
-
-  for (let x=0; x< relations.length; x++ ){
-    if (relations[x]){
-      let parseoRelacion= parseRelation(relations[x], collections);
-      if (parseoRelacion)
-        mermaidLanguage = mermaidLanguage + parseoRelacion + "\n";
+  relations.forEach((relation) => {
+    if (relation) {
+      let relationParsed = parseRelation(relation, collections);
+       mermaidLanguage +=  relationParsed?relationParsed:``;
     }
-  }
+  });
 
-
-  //console.log(relacion[0].);
   return mermaidLanguage;
 }
 
-function parseCollection(coleccion: CollectionWithAll):string {
-  let mermaidColeccion: string= parseNombreCollection(coleccion);
-    if (coleccion.fields){
-        mermaidColeccion=mermaidColeccion+ " {\n";
+function parseCollection(coleccion: CollectionWithAll): string {
+  let mermaidColeccion = parseNameCollection(coleccion);
 
-        for (let f=0; f< coleccion.fields.length; f++ ){
-            let field = coleccion.fields[f];
-            if (field.name && field.idTypeField){
-                // base obligatoria
-                mermaidColeccion=mermaidColeccion+ field.typeField.name + "  " + field.name ;
-                //Opcionales
-                //Comentarios del campo
-                if (field.description)
-                  mermaidColeccion=mermaidColeccion+ ' "' + field.description + '" ';
-                field.description
+  if (coleccion.fields) {
+    mermaidColeccion += ` {\n`;
+    coleccion.fields.forEach((field) => {
+      if (field.name && field.idTypeField) {
+        // required base
+        mermaidColeccion += `${field.typeField.name} ${field.name}`;
+        //Optional
+        //Field comments
+        if (field.description) mermaidColeccion += `" ${field.description} "`;
+        mermaidColeccion += ` \n`;
+      }
+    });
+    mermaidColeccion += ` }\n`;
+  }
 
-                mermaidColeccion=mermaidColeccion+ " \n";
-            }
-        }
-
-        mermaidColeccion=mermaidColeccion+ " }\n";
-    }
-
-
-    //console.log(coleccion);
-    return mermaidColeccion;
+  return mermaidColeccion;
 }
