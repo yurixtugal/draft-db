@@ -1,48 +1,28 @@
-'use client'
+"use client";
 
 import React, { useEffect } from "react";
 import mermaid from "mermaid";
 import { DraftWithCollection } from "@/types/types";
-import {parseToMermaid} from "@/lib/mermaidUtils/util";
-
+import { parseToMermaid } from "@/lib/mermaidUtils/util";
 
 interface DrawDraftInterface {
   draft: DraftWithCollection;
 }
 
-const MermaidComponent = ( {draft}: DrawDraftInterface ) => {
-
+const MermaidComponent = ({ draft }: DrawDraftInterface) => {
   mermaid.initialize({
     startOnLoad: true,
     theme: "default",
     securityLevel: "loose",
-});
+  });
 
-/*
-const mermaidCode = `
-erDiagram
-CAR ||--o{ NAMED-DRIVER : allows
-CAR {
-    string registrationNumber
-    string make
-    string model
-}
-PERSON ||--o{ NAMED-DRIVER : is
-PERSON {
-    string firstName
-    string lastName
-    int age
-}
-
-        `;*/
-  const mermaidCode = parseToMermaid({draft});
+  const mermaidCode = parseToMermaid({ draft });
 
   useEffect(() => {
     mermaid.contentLoaded();
-  }
-  , []);
-  
-  return <div className="mermaid">{mermaidCode}</div>
-}
- 
+  }, []);
+
+  return <div className="mermaid">{mermaidCode}</div>;
+};
+
 export default MermaidComponent;

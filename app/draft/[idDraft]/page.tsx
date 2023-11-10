@@ -1,10 +1,5 @@
-import DrawDraft from "@/components/panel/draw-draft";
+import DrawDraft from "@/components/panel/envolve-draft";
 import { db } from "@/lib/db";
-import dynamic from "next/dynamic";
-
-const ComponentC = dynamic(() => import("@/components/panel/mermaid-flow"), {
-  ssr: false,
-});
 
 export default async function Draft({
   params,
@@ -12,7 +7,6 @@ export default async function Draft({
   params: { idDraft: string };
 }) {
   const idDraft = params.idDraft;
-  console.log(idDraft);
   const draft = await db.draft.findUnique({
     include: {
       collections: {
@@ -45,7 +39,6 @@ export default async function Draft({
   return (
     <div>
       <DrawDraft draft={draft} />
-      <ComponentC draft={draft} />
     </div>
   );
 }

@@ -81,6 +81,9 @@ model TypeField {
   name String
   description String?
   staticId String
+  mysqlDataType String @default("-")
+  postgresDataType String @default("-")
+
 
   fields Field[]
  
