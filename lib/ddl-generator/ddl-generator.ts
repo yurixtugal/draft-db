@@ -62,12 +62,16 @@ const createRelationMysql = (
 
 const generateDataTypeMysql = (field: FieldWithTypes, relationTable: boolean) => {
   let dataType = field.typeField.mysqlDataType;
+  if (dataType === "DECIMAL"){
+    console.log(field)
+  }
   const fieldSettings = field.settings;
 
   dataType += fieldSettings?.length ? `(${fieldSettings.length})` : "";
   dataType += fieldSettings?.isRequired ? ` NOT NULL` : "";
   dataType += (fieldSettings?.isPK && !relationTable) ? ` PRIMARY KEY` : "";
-
+  dataType += (fieldSettings?.precision && fieldSettings?.scale) ? ` (${fieldSettings.precision},${fieldSettings.scale}) ` : "";
+ 
   return dataType;
 };
 

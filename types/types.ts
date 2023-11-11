@@ -11,6 +11,9 @@ type FieldWithTypes = Field & {
     length?: number;
     isRequired?: boolean;
     isPK?: boolean;
+    precision?: number;
+    scale?: number;
+    
   }
 }
 
