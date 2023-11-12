@@ -1,12 +1,13 @@
-import NavigationDraft from "@/components/navigation/model-tabs";
-import DrawDraft from "@/components/panel/envolve-draft";
+import ShowScript from "@/components/ui/showScript";
 import { db } from "@/lib/db";
+import { generateDDL } from "@/lib/ddl-generator/ddl-generator";
+import { DraftWithCollection } from "@/types/types";
 
-export default async function Draft({
+const Page = async ({
   params,
 }: {
   params: { idDraft: string };
-}) {
+}) => {
   const idDraft = params.idDraft;
   const draft = await db.draft.findUnique({
     include: {
@@ -34,12 +35,13 @@ export default async function Draft({
       idDraft,
     },
   });
-
+  
   if (!draft) return <div>Not found</div>;
 
-  return (
-    <div>
-       {/*<DrawDraft draft={draft} />*/}
-    </div>
-  );
-}
+  const scriptMysql = generateDDL(draft as DraftWithCollection );
+  return <>
+    <ShowScript script={scriptMysql} />
+  </>;
+};
+
+export default Page;

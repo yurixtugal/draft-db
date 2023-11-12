@@ -17,17 +17,9 @@ const ComponentC = dynamic(() => import("@/components/panel/mermaid-flow"), {
 
 
 const DrawDraft = ({draft}: DrawDraftInterface) => {
-  const mermaidCode= parseToMermaid({draft});
-  const dml = generateDDL(draft)
-  return <>
-          <div>Drawing draft for {draft.name}</div>
-          <div>Mermaid code: 
-              <br></br>
-              <textarea className="resize rounded-md" cols={50} rows={10} value={dml}></textarea>
-              <textarea className="resize rounded-md" cols={50} rows={10} value={mermaidCode}></textarea>
-          </div>
-          <ComponentC draft={draft} />
-        </>
+
+  return   <ComponentC draft={draft} />
+        
 }
  
 export default DrawDraft; 

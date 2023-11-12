@@ -1,12 +1,12 @@
-import NavigationDraft from "@/components/navigation/model-tabs";
-import DrawDraft from "@/components/panel/envolve-draft";
 import { db } from "@/lib/db";
+import DrawDraft from "@/components/panel/envolve-draft";
+import { DraftWithCollection } from "@/types/types";
 
-export default async function Draft({
+const Page = async ({
   params,
 }: {
   params: { idDraft: string };
-}) {
+}) => {
   const idDraft = params.idDraft;
   const draft = await db.draft.findUnique({
     include: {
@@ -34,12 +34,9 @@ export default async function Draft({
       idDraft,
     },
   });
+  return <>
+    <div><DrawDraft draft={draft as DraftWithCollection} /></div>
+  </>;
+};
 
-  if (!draft) return <div>Not found</div>;
-
-  return (
-    <div>
-       {/*<DrawDraft draft={draft} />*/}
-    </div>
-  );
-}
+export default Page;
