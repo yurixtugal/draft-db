@@ -1,6 +1,7 @@
 import NavigationDraft from "@/components/navigation/model-tabs";
 import DrawDraft from "@/components/panel/envolve-draft";
 import { db } from "@/lib/db";
+import { orderDraft } from "@/lib/draftUtils/util";
 
 export default async function Draft({
   params,
@@ -36,6 +37,8 @@ export default async function Draft({
   });
 
   if (!draft) return <div>Not found</div>;
+
+  orderDraft({draft});
 
   return (
     <div>
