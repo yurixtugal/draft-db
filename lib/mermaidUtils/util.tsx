@@ -107,7 +107,7 @@ function parseRelation(
 
             if (fieldFrom && fieldTo){
               let intermediateCollection : CollectionWithAll= {
-                  "idCollection": ``,
+                  "idCollection": `${collectionFrom.idCollection}x${collectionTo.idCollection}`,
                   "name": collectionFrom.name+collectionTo.name,
                   "description": `Intermediate table to relate ${collectionFrom.name} and ${collectionTo.name}` ,
                   "createdAt": new Date(),
