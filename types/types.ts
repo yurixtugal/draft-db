@@ -13,6 +13,8 @@ type FieldWithTypes = Field & {
     isPK?: boolean;
     precision?: number;
     scale?: number;
+    isFK?: boolean;
+    isUK?: boolean;
     
   }
 }
