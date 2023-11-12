@@ -1,11 +1,6 @@
 import { DraftWithCollection } from "@/types/types";
 
-
-interface DrawDraftInterface {
-    draft: DraftWithCollection;
-}
-
-export function orderDraft({ draft }: DrawDraftInterface) {
+export function orderDraft( draft : DraftWithCollection) {
     // First, we will order the attributes of each collection
     draft.collections.forEach((collection) => {
         collection.fields.sort(

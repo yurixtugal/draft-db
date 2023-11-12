@@ -46,7 +46,7 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
           const LucideIcon = icons[draft.icon as keyof typeof icons];
           return (
           <Link
-            href={`/draft/${draft.idDraft}`}
+            href={`/draft/${draft.idDraft}/model`}
             key={index}
             className={`w-full pl-2 mb-1 flex items-center h-12 border-neutral-800 rounded-xl hover:bg-zinc-700/50 transition ${
               pathname.includes(draft.idDraft)
