@@ -12,8 +12,27 @@ interface DrawDraftInterface {
 const MermaidComponent = ({ draft }: DrawDraftInterface) => {
   mermaid.initialize({
     startOnLoad: true,
-    theme: "default",
+    theme: "base",
     securityLevel: "loose",
+    themeVariables: {
+      'primaryColor': '#1f2020',
+      'primaryTextColor': 'white',
+      'primaryBorderColor': '#81B1DB',
+      'lineColor': 'white',
+      'secondaryColor': 'white',
+      'tertiaryColor': 'white'
+    },
+    themeCSS: `
+    .attributeBoxOdd {
+      fill: hsl(0, 0%, 32%);
+      stroke: '#81B1DB';
+    }
+    .attributeBoxEven {
+      fill: hsl(0, 0%, 22%);
+      stroke: '#81B1DB';
+    }
+    `
+    
   });
 
   const mermaidCode = parseToMermaid({ draft });
