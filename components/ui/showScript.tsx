@@ -2,6 +2,8 @@
 
 import { Copy, CopyCheck } from "lucide-react";
 import { useState } from "react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+
 
 const ShowScript = ({ script }: { script: string }) => {
 
@@ -24,9 +26,12 @@ const ShowScript = ({ script }: { script: string }) => {
         />}
         {copied && <span className="text-base text-neutral-200 pl-3 ">Copied!</span>}
       </h2>
-      <pre className="text-sm text-green-300 bg-gray-900 rounded-md p-4">
-        {script}
-      </pre>
+      <ScrollArea className="rounded-md p-4 h-4/6 w-4/5">
+        <pre className="text-sm text-green-300 bg-gray-900 rounded-md p-4">
+          {script}
+        </pre>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };
