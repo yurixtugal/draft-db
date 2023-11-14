@@ -31,11 +31,12 @@ interface CommandItems {
 const SearchCommand = ({ arrDrafts }: CommandItems) => {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const [key, setKey] = React.useState("");
 
   const router = useRouter();
 
   return (
-    <div className="flex">
+    <div className="">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -45,7 +46,7 @@ const SearchCommand = ({ arrDrafts }: CommandItems) => {
             className="w-[200px] justify-between"
           >
             {value
-              ? arrDrafts.find((draft) => draft.idDraft === value)?.name
+              ? arrDrafts.find((draft) => draft.idDraft === key)?.name
               : "Search draft..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -60,7 +61,11 @@ const SearchCommand = ({ arrDrafts }: CommandItems) => {
                   key={draft.idDraft}
                   value={draft.name}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    
+                    if (!(currentValue === value)){
+                      setValue(currentValue);
+                      setKey(draft.idDraft);
+                    }
                     setOpen(false);
                     router.push(`/draft/${draft.idDraft}/model`);
                   }}
@@ -68,7 +73,7 @@ const SearchCommand = ({ arrDrafts }: CommandItems) => {
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === draft.idDraft ? "opacity-100" : "opacity-0"
+                      key === draft.idDraft ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {draft.name}

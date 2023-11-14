@@ -38,7 +38,7 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
   return (
     <div className="pb-10">
       <nav
-        className="flex items-center space-x-4 ml-10 pt-6 pb-6 w-full"
+        className="items-center space-x-4 ml-10 pt-6 pb-6"
       >
         {routes.map((route) => (
           <Link
@@ -52,8 +52,8 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
             {route.label}
         </Link>
         ))}
-        <SearchCommand arrDrafts={arrDrafts}/>
       </nav>
+      <SearchCommand arrDrafts={arrDrafts}/>
       <Separator className="bg-neutral-500" />
       
     </div>
