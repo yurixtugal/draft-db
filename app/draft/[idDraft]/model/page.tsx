@@ -39,9 +39,11 @@ const Page = async ({
 
   orderDraft(draft as DraftWithCollection);
 
-  return <>
+  return <div className="pl-10 mr-8">
+    <div className="pb-2 pr-5 text-2xl text-neutral-200">{draft?.name}</div>
+    <div className="pb-2 mr-5 text-base">{draft?.description}</div>
     <div><DrawDraft draft={draft as DraftWithCollection} /></div>
-  </>;
+  </div>;
 };
 
 export default Page;

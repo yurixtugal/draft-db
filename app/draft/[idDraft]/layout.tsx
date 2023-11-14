@@ -20,9 +20,9 @@ export default async function RootLayout({
   const arrDrafts = await db.draft.findMany();
   
   return (
-    <main className="flex-col fixed z-29 inset-y-0 bg-[#292a2e] text-neutral-300 w-full">
+      <>
       <NavigationDraft arrDrafts={arrDrafts}/>
       {children}
-    </main>
+      </>
   );
 }

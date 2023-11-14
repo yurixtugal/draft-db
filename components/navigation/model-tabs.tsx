@@ -36,27 +36,25 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
 ];
 
   return (
-    <div className="pb-10">
-      <nav
-        className="items-center space-x-4 ml-10 pt-6 pb-6"
-      >
-        {routes.map((route) => (
-          <Link
-            key={route.href}
-            href={`${parentRoute}/${route.href}`}
-            className={cn(
-              'text-xl font-medium transition-colors hover:text-neutral-100',
-              route.active ? 'text-neutral-100' : 'text-neutral-400'
-            )}
-          >
-            {route.label}
-        </Link>
-        ))}
-      </nav>
-      <SearchCommand arrDrafts={arrDrafts}/>
-      <Separator className="bg-neutral-500" />
-      
-    </div>
+    <div className="pb-10 w-full">
+    <nav className="flex items-center space-x-10 ml-10 pt-6 pb-6">
+    
+      {routes.map((route) => (
+        <Link
+          key={route.href}
+          href={`${parentRoute}/${route.href}`}
+          className={cn(
+            'text-xl font-medium transition-colors hover:text-green-300',
+            route.active ? 'text-green-400' : 'text-gray-200'
+          )}
+        >
+          {route.label}
+      </Link>
+      ))}
+    </nav>
+    <SearchCommand arrDrafts={arrDrafts}/>
+    <Separator className="bg-gray-700 w-full" />
+</div>
   );
 };
 export default NavigationDraft;
