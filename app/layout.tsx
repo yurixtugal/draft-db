@@ -30,7 +30,6 @@ export default async function RootLayout({
             <SideBarNavigation arrDrafts={arrDrafts} />
           </div>
           <main className="md:pl-[300px] flex-col fixed z-29 inset-y-0 bg-[#292a2e] text-neutral-300 w-full">
-            
             {children}
           </main>
         </div>

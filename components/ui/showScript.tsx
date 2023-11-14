@@ -26,7 +26,7 @@ const ShowScript = ({ script }: { script: string }) => {
         />}
         {copied && <span className="text-base text-neutral-200 pl-3 ">Copied!</span>}
       </h2>
-      <ScrollArea className="rounded-md p-4 h-4/6 w-4/5">
+      <ScrollArea className="rounded-md p-4 mr-6 h-4/6 w-5/5">
         <pre className="text-sm text-green-300 bg-gray-900 rounded-md p-4">
           {script}
         </pre>
