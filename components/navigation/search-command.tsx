@@ -58,7 +58,7 @@ import {
                 {arrDrafts.map((draft) => (
                 <CommandItem
                     key={draft.idDraft}
-                    value={draft.name}
+                    value={draft.idDraft}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue)
                       setOpen(false)
