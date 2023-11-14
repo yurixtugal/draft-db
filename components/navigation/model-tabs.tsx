@@ -29,9 +29,9 @@ const NavigationDraft = () => {
 ];
 
   return (
-    <div className="pb-10">
+    <div className="pb-10 w-full">
     <nav
-      className="flex items-center space-x-4 ml-10 pt-6 pb-6"
+      className="flex items-center space-x-10 ml-10 pt-6 pb-6"
     >
       {routes.map((route) => (
         <Link
@@ -46,7 +46,7 @@ const NavigationDraft = () => {
       </Link>
       ))}
     </nav>
-    <Separator className="bg-neutral-500" />
+    <Separator className="bg-neutral-500 w-full" />
 </div>
   );
 };

@@ -18,8 +18,8 @@ const ShowScript = ({ script }: { script: string }) => {
   }
 
   return (
-    <div className="bg-[#292a2e] rounded-md p-4 h-full">
-      <h2 className="text-xl text-white mb-2 bg-[#292a2e] flex">
+    <div className="bg-[#292a2e] rounded-md pl-6 h-full">
+      <h2 className="text-xl pl-4 text-white mb-2 bg-[#292a2e] flex">
         DDL Script{" "}
         {copied ? <CopyCheck className="pl-3 h-7 w-7 text-neutral-200" /> : <Copy className="pl-3 h-7 w-7 hover:cursor-pointer text-neutral-400 hover:text-neutral-200" 
         onClick={onCopy}

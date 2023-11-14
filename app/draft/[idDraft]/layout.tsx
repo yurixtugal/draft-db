@@ -18,7 +18,7 @@ export default async function RootLayout({
 }) {
   
   return (
-    <main className="flex-col fixed z-29 inset-y-0 bg-[#292a2e] text-neutral-300 w-full">
+    <main className="flex-col fixed z-29 inset-y-0 bg-[#292a2e] text-neutral-300">
       <NavigationDraft />
       {children}
     </main>
