@@ -25,8 +25,8 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
   
   return (
     <div className="mt-7">
-      <Separator className="bg-zinc-700" />
-      <h2 className="font-semibold text-zinc-500 flex items-center mt-7 mb-4">
+      <Separator className="bg-gray-700" />
+      <h2 className="font-semibold text-gray-300 flex items-center mt-7 mb-4">
         <ChevronDown
           className={`h-5 w-5 hover:cursor-pointer ${
             showDraft ? "" : "hidden"
@@ -48,10 +48,10 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
           <Link
             href={`/draft/${draft.idDraft}/model`}
             key={index}
-            className={`w-full pl-2 mb-1 flex items-center h-12 border-neutral-800 rounded-xl hover:bg-zinc-700/50 transition ${
+            className={`w-full pl-2 mb-1 flex items-center h-12 border-neutral-800 rounded-xl hover:bg-gray-700 transition ${
               pathname.includes(draft.idDraft)
-                ? "bg-zinc-700/60"
-                : "text-neutral-400"
+                ? "bg-gray-700 text-green-400"
+                : "text-gray-300"
             } text-md font-semibold `}
           > 
             <LucideIcon className="h-5 w-5" /> 
