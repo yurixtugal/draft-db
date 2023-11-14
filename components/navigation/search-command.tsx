@@ -1,84 +1,85 @@
 "use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 import { Draft } from "@prisma/client";
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
-    Command,
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
-  } from "@/components/ui/command";
-  import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-  } from "@/components/ui/popover"
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useRouter } from "next/navigation";
 
+interface CommandItems {
+  arrDrafts: Draft[];
+}
 
-  interface CommandItems {
-    arrDrafts: Draft[];
-  }
+const SearchCommand = ({ arrDrafts }: CommandItems) => {
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
 
-  const SearchCommand = ({arrDrafts}: CommandItems) => {
-    
-    const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
- 
+  const router = useRouter();
+
   return (
     <div className="flex">
-        <Popover open={open} onOpenChange={setOpen} >
+      <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-            <Button
+          <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
             className="w-[200px] justify-between"
-            >
+          >
             {value
-                ? arrDrafts.find((draft) => draft.idDraft === value)?.name
-                : "Search draft..."}
+              ? arrDrafts.find((draft) => draft.idDraft === value)?.name
+              : "Search draft..."}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
+          </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
-            <Command>
+          <Command>
             <CommandInput placeholder="Search draft..." />
             <CommandEmpty>No draft found.</CommandEmpty>
             <CommandGroup>
-                
-                {arrDrafts.map((draft) => (
+              {arrDrafts.map((draft) => (
                 <CommandItem
-                    key={draft.idDraft}
-                    value={draft.name}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue)
-                      setOpen(false)
-                    }}
+                  key={draft.idDraft}
+                  value={draft.name}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                    router.push(`/draft/${draft.idDraft}/model`);
+                  }}
                 >
-                    <Check
+                  <Check
                     className={cn(
-                        "mr-2 h-4 w-4",
-                        value === draft.idDraft ? "opacity-100" : "opacity-0"
+                      "mr-2 h-4 w-4",
+                      value === draft.idDraft ? "opacity-100" : "opacity-0"
                     )}
-                    />
-                    {draft.name}
+                  />
+                  {draft.name}
                 </CommandItem>
-                ))}
+              ))}
             </CommandGroup>
-            </Command>
+          </Command>
         </PopoverContent>
-        </Popover>
+      </Popover>
     </div>
-  )
-}
+  );
+};
 
 export default SearchCommand;
