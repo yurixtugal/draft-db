@@ -36,7 +36,7 @@ const SearchCommand = ({ arrDrafts }: CommandItems) => {
   const router = useRouter();
 
   return (
-    <div className="">
+    <div>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
