@@ -16,10 +16,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  const arrDrafts = await db.draft.findMany();
   
   return (
       <>
-      <NavigationDraft />
+      <NavigationDraft arrDrafts={arrDrafts}/>
       {children}
       </>
   );

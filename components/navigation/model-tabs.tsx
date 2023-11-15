@@ -5,9 +5,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Separator } from "../ui/separator";
+import SearchCommand from "./search-command";
+import { Draft } from "@prisma/client";
+ 
+
+interface CommandItems {
+  arrDrafts: Draft[];
+}
 
 
-const NavigationDraft = () => {
+const NavigationDraft = ({arrDrafts}: CommandItems) => {
   const pathname = usePathname();
   const parentRoute = pathname.split('/').slice(0, 3).join('/');
   console.log('parentRoute', parentRoute);
@@ -28,24 +35,33 @@ const NavigationDraft = () => {
   }
 ];
 
-return (
-  <div className="pb-10 w-full">
-    <nav className="flex items-center space-x-10 ml-10 pt-6 pb-6">
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={`${parentRoute}/${route.href}`}
-          className={cn(
-            'text-xl font-medium transition-colors hover:text-green-300',
-            route.active ? 'text-green-400' : 'text-gray-200'
-          )}
-        >
-          {route.label}
-        </Link>
-      ))}
-    </nav>
-    <Separator className="bg-gray-700 w-full" />
+  return (
+    <>
+    <div className="w-full">
+      <div className="flex flex-row items-center">
+        <div className="basis-3/4">
+          <nav className="flex items-center space-x-10 ml-10 pt-6 pb-6">
+            {routes.map((route) => (
+              <Link
+                key={route.href}
+                href={`${parentRoute}/${route.href}`}
+                className={cn(
+                  'text-xl font-medium transition-colors hover:text-green-300',
+                  route.active ? 'text-green-400' : 'text-gray-200'
+                )}
+              >
+                {route.label}
+            </Link>
+            ))}
+          </nav>
+        </div>
+        <div className="basis-1/4 flex flex-row-reverse items-center  mr-10 pt-6 pb-6">
+          <SearchCommand arrDrafts={arrDrafts}/>
+        </div>
+      </div>
   </div>
-);
+  <Separator className="bg-gray-700 w-full mb-10" />
+</>
+  );
 };
 export default NavigationDraft;
