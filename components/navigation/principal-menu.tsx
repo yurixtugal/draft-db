@@ -14,19 +14,6 @@ const routes = [
     isActive: pathname === '/',
     
   },
-  {
-    label: 'Discover',
-    href: '/discover',
-    icon: <Zap />,
-    isActive: pathname === '/discover',
-  },
-  {
-    label: 'Creation history',
-    href: '/creation-history',
-    icon: <History />,
-    isActive: pathname === '/creation-history',
-  },
-
 ]
 
   return <div>
