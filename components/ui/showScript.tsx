@@ -1,9 +1,9 @@
 "use client"
 
 import { Copy, CopyCheck } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import ReactTypingEffect from 'react-typing-effect';
+import { TypeAnimation } from 'react-type-animation';
 
 
 const ShowScript = ({ script }: { script: string }) => {
@@ -30,8 +30,14 @@ const ShowScript = ({ script }: { script: string }) => {
       </h2>
       <ScrollArea className="rounded-md p-4 mr-6 h-4/6 w-5/5 border-2 border-green-500">
         <pre className="text-sm text-green-300  rounded-md p-4">
-        <ReactTypingEffect text={script} speed={2} eraseDelay={10} />
-        </pre>
+        <TypeAnimation
+      sequence={[
+        // Same substring at the start will only be typed out once, initially
+        script
+      ]}
+      wrapper="span"
+      speed={99}
+    />        </pre>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
