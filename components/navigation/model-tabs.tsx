@@ -46,7 +46,7 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
                 key={route.href}
                 href={`${parentRoute}/${route.href}`}
                 className={cn(
-                  'text-xl font-medium transition-colors hover:text-green-300',
+                  'font-medium transition-colors hover:text-green-300',
                   route.active ? 'text-green-400' : 'text-gray-200'
                 )}
               >

@@ -10,7 +10,7 @@ const routes = [
   {
     label: 'Home',
     href: '/',
-    icon: <Home />,
+    icon: <Home className="h-5 w-5" />,
     isActive: pathname === '/',
     
   },
@@ -18,10 +18,10 @@ const routes = [
 
   return <div>
   {routes.map((route, index) => (
-    <Link href={route.href} key={index} className={`w-full text-md font-semibold pl-2 mb-1 flex items-center h-12 border-neutral-800
+    <Link href={route.href} key={index} className={`w-full text-base pl-2 mb-4 flex items-center h-9 border-neutral-800
     rounded-xl
     hover:bg-gray-700 transition ${route.isActive?'bg-gray-700 text-green-400 font-semibold':'text-gray-300'}`}>
-      {route.icon}<span className="ml-3">{route.label}</span>
+      {route.icon}<span className="ml-2 mt-1">{route.label}</span>
     </Link>
   ))}
   </div>;
