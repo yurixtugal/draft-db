@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import { db } from "@/lib/db";
 import NavigationDraft from "@/components/navigation/model-tabs";
+import NavigationDraftSmall from "@/components/navigation/model-tabs-small";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default async function RootLayout({
   
   return (
       <>
-      <NavigationDraft arrDrafts={arrDrafts}/>
+      <div className="md:hidden"><NavigationDraftSmall arrDrafts={arrDrafts}/></div>
+
+      <div className="hidden md:block"><NavigationDraft arrDrafts={arrDrafts}/></div>
       {children}
       </>
   );

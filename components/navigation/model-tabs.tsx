@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import SearchCommand from "./search-command";
 import { Draft } from "@prisma/client";
+import Logo from "./logo";
  
 
 interface CommandItems {
@@ -17,7 +18,6 @@ interface CommandItems {
 const NavigationDraft = ({arrDrafts}: CommandItems) => {
   const pathname = usePathname();
   const parentRoute = pathname.split('/').slice(0, 3).join('/');
-  console.log('parentRoute', parentRoute);
   const routes = [{
     label: 'Model',
     href: '/model',
@@ -38,9 +38,10 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
   return (
     <>
     <div className="w-full">
+      <div className="md:hidden"><Logo /></div>
       <div className="flex flex-row items-center">
-        <div className="basis-3/4">
-          <nav className="flex items-center space-x-10 ml-10 pt-6 pb-6">
+        <div className="md:basis-3/4">
+          <nav className="flex items-center space-x-10 md:ml-10 pt-6 pb-6 ml-auto">
             {routes.map((route) => (
               <Link
                 key={route.href}
@@ -55,12 +56,12 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
             ))}
           </nav>
         </div>
-        <div className="basis-1/4 flex flex-row-reverse items-center  mr-10 pt-6 pb-6">
+        <div className="hidden basis-1/4 sm:flex sm:flex-row-reverse sm:items-center  mr-10 pt-6 pb-6">
           <SearchCommand arrDrafts={arrDrafts}/>
         </div>
       </div>
   </div>
-  <Separator className="bg-gray-700 w-full mb-10" />
+  <Separator className="bg-gray-700 w-full mb-4" />
 </>
   );
 };
