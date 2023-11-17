@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { icons } from "lucide-react";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SideBarNavigationProps {
   arrDrafts: Draft[];
@@ -26,8 +26,8 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
 
   return (
     
-    <div className="mt-4">
-            
+    <div className="mt-4 mb-5">
+        
         <h2 className=" text-gray-300 flex items-center mt-3 mb-3">
           <ChevronDown
             className={`h-5 w-5 hover:cursor-pointer ${
@@ -43,6 +43,7 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
           />
           <span className="ml-3">Drafts</span>
         </h2>
+        <ScrollArea  className="rounded-md h-[calc(100vh-10rem)]">
         <div className={`${showDraft ? "" : "hidden"}`}>
           {arrDrafts.map((draft, index) => {
             const LucideIcon = icons[draft.icon as keyof typeof icons];
@@ -62,7 +63,9 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
             );
           })}
         </div>
-      
+        <div className="h-5 w-5" ></div>
+
+        </ScrollArea>
     </div>
   );
 };
