@@ -1,0 +1,21 @@
+.mermaid {
+    display: flex !important;
+    justify-content: center;
+    min-width: 200%;
+}
+
+.sm{
+    min-width: 100%;
+}
+
+.md{
+    min-width: 200%;
+}
+
+.lg{
+    min-width: 300%;
+}
+
+.xl{
+    min-width: 500%;
+}
