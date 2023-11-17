@@ -19,17 +19,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const arrDrafts = await db.draft.findMany();
+  const arrDrafts = await db.draft.findMany(
+    { orderBy: { createdAt: "asc" } }
+  );
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="h-full">
-          <div className="hidden sm:flex w-[300px] flex-col fixed z-30 inset-y-0 bg-gray-800 text-neutral-300">
+        <div className="h-full bg-gray-900 ">
+          <div className="hidden sm:flex w-[260px] fixed flex-col z-30 inset-y-0 bg-gray-800 text-neutral-300">
             <Logo />
             <SideBarNavigation arrDrafts={arrDrafts} />
           </div>
-          <main className="sm:pl-[300px] flex-col fixed z-29 inset-y-0 bg-gray-900 text-neutral-300 w-full">
+          <main className="sm:pl-[260px] flex-col fixed  z-29 inset-y-0 bg-gray-900 text-neutral-300 w-full">
             {children}
           </main>
         </div>
