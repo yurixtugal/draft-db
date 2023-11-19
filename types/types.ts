@@ -40,6 +40,7 @@ type FieldWithTypesApi = {
     precision?: number;
     scale?: number;
     isFK?: boolean;
+    relationType?: string;
   }
 }
 

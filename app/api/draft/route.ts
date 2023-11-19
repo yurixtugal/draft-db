@@ -4,6 +4,14 @@ import { draftSchema } from "@/validations/index.";
 import { CollectionWithAll, CollectionWithAllApi } from "@/types/types";
 import { Collection } from "@prisma/client";
 
+const typeRelations = {
+  ManyToMany: "SINGLE_RELATION_MANY_TO_MANY",
+  ZeroToMany: "SINGLE_RELATION_ZERO_TO_MANY",
+  ZeroToOne: "SINGLE_RELATION_ZERO_TO_ONE",
+  OneToOne: "SINGLE_RELATION_ONE_TO_ONE",
+  OneToMany: "SINGLE_RELATION_ONE_TO_MANY",
+};
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -19,17 +27,6 @@ export async function POST(req: Request) {
     const arrCollections = body.collections;
 
     const arrTypeRelation = await db.typeRelation.findMany();
-    const typeRelationOneToMany = arrTypeRelation.find(
-      (typeRelation) => typeRelation.staticId === "SINGLE_RELATION_ONE_TO_MANY"
-    );
-
-      console.log("[DRAFT_POST] typeRelationOneToMany", typeRelationOneToMany)
-
-    if (!typeRelationOneToMany) {
-      return new NextResponse("One to many relation not found", {
-        status: 500,
-      });
-    }
 
     const draftCreated = await db.draft.create({
       data: {
@@ -40,13 +37,21 @@ export async function POST(req: Request) {
     });
     let arrCollectionsCreated: Collection[] = [];
 
-    arrCollections.forEach(async (collection: CollectionWithAllApi) => {
-      const arrFormatedFields = collection.fields.map((field) => ({
-        name: field.name,
-        description: field.description,
-        idTypeField: field.idTypeField,
-        settings: field.settings ? field.settings : {},
-      }));
+    for (let index = 0; index < arrCollections.length; index++) {
+      const collection: CollectionWithAllApi = arrCollections[index];
+      const arrFormatedFields = collection.fields
+        .map((field) => ({
+          name: field.name,
+          description: field.description,
+          idTypeField: field.idTypeField,
+          settings: field.settings ? field.settings : {},
+        }))
+        .filter(
+          (field) =>
+            typeRelations[
+              field.settings.relationType as keyof typeof typeRelations
+            ] !== typeRelations.ManyToMany
+        );
       const collectionCreated = await db.collection.create({
         data: {
           name: collection.name,
@@ -61,20 +66,28 @@ export async function POST(req: Request) {
       });
 
       arrCollectionsCreated.push(collectionCreated);
-    });
+    }
 
     let arrSingleRelations = [];
     let arrManyRelations = [];
-    console.log("[DRAFT_POST] arrCollections", arrCollections)
-    arrCollections.forEach(async (collectionApi: CollectionWithAllApi) => {
-      collectionApi.fields.forEach(async (field) => {
-        if (field.settings.isFK) {
+
+    for (let index = 0; index < arrCollections.length; index++) {
+      const collectionApi = arrCollections[index];
+      for (
+        let indexField = 0;
+        indexField < collectionApi.fields.length;
+        indexField++
+      ) {
+        const field = collectionApi.fields[indexField];
+        if (
+          field.settings.isFK &&
+          typeRelations[
+            field.settings.relationType as keyof typeof typeRelations
+          ] !== typeRelations.ManyToMany
+        ) {
           const nameFieldSingle = field.name;
           const descriptionFieldSingle = `${field.description} (FK)`;
           const nameCollectionFrom = field.name.split("id")[1];
-          console.log("[DRAFT_POST] nameFieldSingle", nameFieldSingle);
-          console.log("[DRAFT_POST] descriptionFieldSingle", descriptionFieldSingle);
-          console.log("[DRAFT_POST] nameCollectionFrom", nameCollectionFrom);
 
           const idCollectionFrom = arrCollectionsCreated.find(
             (collectionDB) =>
@@ -89,19 +102,32 @@ export async function POST(req: Request) {
               collectionDB.idDraft === draftCreated.idDraft
           )?.idCollection;
           if (!idCollectionTo) return;
+          const typeRelationSingle = arrTypeRelation.find(
+            (typeRelation) =>
+              typeRelation.staticId ===
+              typeRelations[
+                field.settings.relationType as keyof typeof typeRelations
+              ]
+          );
+
+          if (!typeRelationSingle) {
+            return new NextResponse("Single relation not found", {
+              status: 500,
+            });
+          }
           const singleRelationCreated = await db.relationCollection.create({
             data: {
               idCollectionFrom,
               idCollectionTo,
-              idTypeRelation: typeRelationOneToMany.idTypeRelation,
+              idTypeRelation: typeRelationSingle.idTypeRelation,
               descriptionFieldSingle,
               nameFieldSingle,
             },
           });
           arrSingleRelations.push(singleRelationCreated);
         }
-      });
-    });
+      }
+    }
 
     const draftToSend = await db.draft.findUnique({
       where: {
@@ -124,7 +150,7 @@ export async function POST(req: Request) {
         },
       },
     });
-    console.log("[DRAFT_POST] finish")
+    console.log("[DRAFT_POST] finish");
     return new NextResponse(JSON.stringify({ draft: draftToSend }), {
       status: 201,
     });
