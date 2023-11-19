@@ -5,11 +5,12 @@ import { CollectionWithAll, CollectionWithAllApi } from "@/types/types";
 import { Collection } from "@prisma/client";
 
 const typeRelations = {
-  ManyToMany: "SINGLE_RELATION_MANY_TO_MANY",
+  ManyToMany: "MULTI_RELATION_MANY_TO_MANY",
   ZeroToMany: "SINGLE_RELATION_ZERO_TO_MANY",
   ZeroToOne: "SINGLE_RELATION_ZERO_TO_ONE",
   OneToOne: "SINGLE_RELATION_ONE_TO_ONE",
   OneToMany: "SINGLE_RELATION_ONE_TO_MANY",
+  ManyToOne: "SINGLE_RELATION_ONE_TO_MANY",
 };
 
 export async function POST(req: Request) {
@@ -23,7 +24,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const { name, description } = body.draft;
+    const { icon, name, description } = body.draft;
     const arrCollections = body.collections;
 
     const arrTypeRelation = await db.typeRelation.findMany();
@@ -32,7 +33,7 @@ export async function POST(req: Request) {
       data: {
         name,
         description,
-        icon: "Database",
+        icon,
       },
     });
     let arrCollectionsCreated: Collection[] = [];
@@ -68,9 +69,6 @@ export async function POST(req: Request) {
       arrCollectionsCreated.push(collectionCreated);
     }
 
-    let arrSingleRelations = [];
-    let arrManyRelations = [];
-
     for (let index = 0; index < arrCollections.length; index++) {
       const collectionApi = arrCollections[index];
       for (
@@ -79,12 +77,14 @@ export async function POST(req: Request) {
         indexField++
       ) {
         const field = collectionApi.fields[indexField];
-        if (
+        
+        if ( field.settings &&
           field.settings.isFK &&
           typeRelations[
             field.settings.relationType as keyof typeof typeRelations
           ] !== typeRelations.ManyToMany
         ) {
+
           const nameFieldSingle = field.name;
           const descriptionFieldSingle = `${field.description} (FK)`;
           const nameCollectionFrom = field.name.split("id")[1];
@@ -94,14 +94,26 @@ export async function POST(req: Request) {
               collectionDB.name === nameCollectionFrom &&
               collectionDB.idDraft === draftCreated.idDraft
           )?.idCollection;
-          if (!idCollectionFrom) return;
+          if (!idCollectionFrom)
+            return new NextResponse(
+              JSON.stringify({
+                message: "Collection From not found",
+                detail: `Collection From not found with name ${nameCollectionFrom} and idDraft ${draftCreated.idDraft}`,
+              }),
+              {
+                status: 500,
+              }
+            );
 
           const idCollectionTo = arrCollectionsCreated.find(
             (collectionDB) =>
               collectionDB.name === collectionApi.name &&
               collectionDB.idDraft === draftCreated.idDraft
           )?.idCollection;
-          if (!idCollectionTo) return;
+          if (!idCollectionTo)
+            return new NextResponse("Collection To not found", {
+              status: 500,
+            });
           const typeRelationSingle = arrTypeRelation.find(
             (typeRelation) =>
               typeRelation.staticId ===
@@ -115,7 +127,7 @@ export async function POST(req: Request) {
               status: 500,
             });
           }
-          const singleRelationCreated = await db.relationCollection.create({
+          await db.relationCollection.create({
             data: {
               idCollectionFrom,
               idCollectionTo,
@@ -124,7 +136,71 @@ export async function POST(req: Request) {
               nameFieldSingle,
             },
           });
-          arrSingleRelations.push(singleRelationCreated);
+        } else {
+          if ( field.settings &&
+            field.settings.isFK &&
+            typeRelations[
+              field.settings.relationType as keyof typeof typeRelations
+            ] === typeRelations.ManyToMany
+          ) {
+            console.log("[DRAFT_POST] should add ManyToMany");
+
+            const nameCollectionTo = field.name.split("id")[1];
+
+            const idCollectionTo = arrCollectionsCreated.find(
+              (collectionDB) =>
+                collectionDB.name === nameCollectionTo &&
+                collectionDB.idDraft === draftCreated.idDraft
+            )?.idCollection;
+            if (!idCollectionTo)
+              return new NextResponse(
+                JSON.stringify({
+                  message: "Collection From not found",
+                  detail: `Collection From not found with name ${nameCollectionTo} and idDraft ${draftCreated.idDraft}`,
+                }),
+                {
+                  status: 500,
+                }
+              );
+
+            const nameFieldTo = field.name;
+            const descriptionFieldTo = `${field.description} (FK)`;
+
+            const idCollectionFrom = arrCollectionsCreated.find(
+              (collectionDB) =>
+                collectionDB.name === collectionApi.name &&
+                collectionDB.idDraft === draftCreated.idDraft
+            )?.idCollection;
+            if (!idCollectionFrom)
+              return new NextResponse("Collection From not found", {
+                status: 500,
+              });
+
+            const nameFieldFrom = `id${collectionApi.name}`;
+            const descriptionFieldFrom = `${collectionApi.name} (FK)`;
+
+            const typeRelationMulti = arrTypeRelation.find(
+              (typeRelation) =>
+                typeRelation.staticId === typeRelations.ManyToMany
+            );
+
+            if (!typeRelationMulti)
+              return new NextResponse("Multi relation not found", {
+                status: 500,
+              });
+
+            await db.relationCollection.create({
+              data: {
+                idCollectionFrom,
+                idCollectionTo,
+                idTypeRelation: typeRelationMulti.idTypeRelation,
+                nameFieldMultiFrom: nameFieldFrom,
+                descriptionFieldFrom: descriptionFieldFrom,
+                nameFieldMultiTo: nameFieldTo,
+                descriptionFieldTo: descriptionFieldTo,
+              },
+            });
+          }
         }
       }
     }

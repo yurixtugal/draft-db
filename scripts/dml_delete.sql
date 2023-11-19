@@ -14,3 +14,13 @@ delete from "Collection" c
 where c."idDraft" = '03f21000-2f7b-4bbc-9c94-308798d93256';
 
 delete from "Draft" d where d."idDraft" = '03f21000-2f7b-4babc-9c94-308798d93256';
+
+
+delete from "Field" f ;
+
+
+delete from "RelationCollection" rc;
+
+delete from "Collection" c;
+
+delete from "Draft" d;
