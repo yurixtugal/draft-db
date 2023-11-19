@@ -18,7 +18,7 @@ const ComponentC = dynamic(() => import("@/components/panel/mermaid-flow"), {
 
 const DrawDraft = ({ draft }: DrawDraftInterface) => {
   return (
-    <ScrollArea  className="rounded-md h-[calc(100vh-10rem)]">
+    <ScrollArea  className="h-[calc(100vh-10rem)]" >
       <div className="pl-10 mr-8">
         <div className="pb-2 pr-5 text-2xl text-white mb-3">{draft?.name}</div>
         <div className="pb-2 mr-5 text-sm text-gray-200 mb-6">{draft?.description}</div>

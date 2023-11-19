@@ -12,7 +12,7 @@ const MarketingPage = ({firstDraft} : {firstDraft: string}) => {
   <div className=" md:hidden">
   <Logo/>
   </div>
-  <div className="bg-gray-900 flex flex-col items-center justify-center min-h-screen py-2 text-white px-4 font-sans mt-5">
+  <div className="bg-gray-900 flex flex-col items-center justify-center min-h-screen py-2 text-white px-4 font-sans">
   <div className="mb-20 flex text-xs md:text-sm items-center border shadow-sm p-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-full uppercase">
     <Medal className="h-4 w-4 mr-2" />
     Top Diagram Entity Relation Model Repository

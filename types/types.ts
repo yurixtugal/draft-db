@@ -29,8 +29,31 @@ type CollectionWithAll = Collection & {
   relationCollectionTo: RelationWithTypes[];
 };
 
+type FieldWithTypesApi = {
+  name: string;
+  description?: string;
+  idTypeField: string;
+  settings: {
+    length?: number;
+    isRequired?: boolean;
+    isPK?: boolean;
+    precision?: number;
+    scale?: number;
+    isFK?: boolean;
+    relationType?: string;
+  }
+}
+
+type CollectionWithAllApi = {
+  name: string;
+  description: string;
+  fields: FieldWithTypesApi[];
+};
+
 
 export type { DraftWithCollection };
 export type { CollectionWithAll };
 export type { FieldWithTypes };
 export type { RelationWithTypes };
+export type { FieldWithTypesApi };
+export type { CollectionWithAllApi };
