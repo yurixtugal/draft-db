@@ -6,7 +6,7 @@ import { parseToMermaid } from "@/lib/mermaidUtils/util";
 
 import dynamic from "next/dynamic";
 import { generateDDL } from "@/lib/ddl-generator/ddl-generator";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 interface DrawDraftInterface {
   draft: DraftWithCollection;
@@ -26,6 +26,7 @@ const DrawDraft = ({ draft }: DrawDraftInterface) => {
           <ComponentC draft={draft} />
         </div>
       </div>
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   );
 };
