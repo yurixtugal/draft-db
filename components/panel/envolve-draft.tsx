@@ -39,7 +39,11 @@ const DrawDraft = ({ draft }: DrawDraftInterface) => {
       <div className="pl-10 mr-8">
         <div className="flex flex-row justify-between pb-2 pr-5 text-2xl text-white mb-3">
           <span>{draft?.name}</span>
-          
+          {/*<Button variant="destructive" className="ml-2" 
+            onClick={deleteDraft}
+          >
+            Delete
+  </Button>*/}
         </div>
         <div className="pb-2 mr-5 text-sm text-gray-200 mb-6">{draft?.description}</div>
         <div className="">
