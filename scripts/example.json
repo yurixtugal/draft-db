@@ -1,0 +1,254 @@
+{
+  "draft": {
+    "name": "Spotify",
+    "description": "Modelo para un sistema similar a Spotify",
+    "icon": "Music"
+  },
+  "collections": [
+    {
+      "name": "User",
+      "description": "Representa a un usuario del sistema.",
+      "fields": [
+        {
+          "name": "idUser",
+          "description": "ID del usuario",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "username",
+          "description": "Nombre de usuario",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 50,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "email",
+          "description": "Correo electrónico del usuario",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 100,
+            "isRequired": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Artist",
+      "description": "Representa a un artista musical.",
+      "fields": [
+        {
+          "name": "idArtist",
+          "description": "ID del artista",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "name",
+          "description": "Nombre del artista",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 100,
+            "isRequired": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Album",
+      "description": "Representa un álbum musical.",
+      "fields": [
+        {
+          "name": "idAlbum",
+          "description": "ID del álbum",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "title",
+          "description": "Título del álbum",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 200,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "releaseDate",
+          "description": "Fecha de lanzamiento del álbum",
+          "idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+          "settings": {
+            "type": "date"
+          }
+        },
+        {
+          "name": "idArtist",
+          "description": "ID del Artist que lanzó el álbum",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Song",
+      "description": "Representa una canción.",
+      "fields": [
+        {
+          "name": "idSong",
+          "description": "ID de la canción",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "title",
+          "description": "Título de la canción",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 200,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "duration",
+          "description": "Duración de la canción en minutos",
+          "idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+          "settings": {}
+        },
+        {
+          "name": "idAlbum",
+          "description": "ID del álbum al que pertenece la canción",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        },
+        {
+          "name": "idGenre",
+          "description": "ID del genero al que pertenece la canción",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playlist",
+      "description": "Representa una lista de reproducción creada por un usuario.",
+      "fields": [
+        {
+          "name": "idPlaylist",
+          "description": "ID de la lista de reproducción",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "name",
+          "description": "Nombre de la lista de reproducción",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 100,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "idUser",
+          "description": "ID del usuario propietario de la lista de reproducción",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Genre",
+      "description": "Representa un género musical.",
+      "fields": [
+        {
+          "name": "idGenre",
+          "description": "ID del género musical",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "name",
+          "description": "Nombre del género musical",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 50,
+            "isRequired": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "description": "Representa una reseña de un usuario sobre una canción.",
+      "fields": [
+        {
+          "name": "idReview",
+          "description": "ID de la reseña",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "content",
+          "description": "Contenido de la reseña",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 500,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "idSong",
+          "description": "ID de la canción reseñada",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        },
+        {
+          "name": "idUser",
+          "description": "ID del usuario que realizó la reseña",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        }
+      ]
+    }
+  ]
+}
