@@ -33,11 +33,15 @@ const DrawDraft = ({ draft }: DrawDraftInterface) => {
   };
 
   return (
-    <ScrollArea className="h-[calc(100vh-10rem)]">
+    <>
       <div className="pl-10 mr-8">
-        <div className="flex flex-row justify-between pb-2 pr-5 text-2xl text-white mb-3">
-          <span>{draft?.name}</span>
-          {
+        <ScrollArea className="h-[calc(100vh-10rem)] md:h-[calc(100vh-5rem)]">
+          <div className="flex flex-row justify-between pr-5 text-white mb-1">
+            <span className="font-semibold text-sm">
+              {draft?.name} -{" "}
+              <span className="text-sm font-normal">{draft?.description}</span>
+            </span>
+            {/*
             <Button
               variant="destructive"
               className="ml-2"
@@ -45,17 +49,16 @@ const DrawDraft = ({ draft }: DrawDraftInterface) => {
             >
               Delete
             </Button>
-          }
-        </div>
-        <div className="pb-2 mr-5 text-sm text-gray-200 mb-6">
-          {draft?.description}
-        </div>
-        <div className="">
-          <ComponentC draft={draft} />
-        </div>
+          //*/}
+          </div>
+          <div className="">
+            <ComponentC draft={draft} />
+          </div>
+
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
-      <ScrollBar orientation="horizontal" />
-    </ScrollArea>
+    </>
   );
 };
 

@@ -1,0 +1,911 @@
+* Spotify like model example:
+
+{
+	"draft": {
+		"name": "Spotify",
+		"description": "Modelo para un sistema similar a Spotify",
+		"icon": "Database"
+	},
+	"collections": [
+		{
+			"name": "User",
+			"description": "Representa a un usuario del sistema.",
+			"fields": [
+				{
+					"name": "idUser",
+					"description": "ID del usuario",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "username",
+					"description": "Nombre de usuario",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 50,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "email",
+					"description": "Correo electrónico del usuario",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Artist",
+			"description": "Representa a un artista musical.",
+			"fields": [
+				{
+					"name": "idArtist",
+					"description": "ID del artista",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre del artista",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Album",
+			"description": "Representa un álbum musical.",
+			"fields": [
+				{
+					"name": "idAlbum",
+					"description": "ID del álbum",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "title",
+					"description": "Título del álbum",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 200,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "releaseDate",
+					"description": "Fecha de lanzamiento del álbum",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date"
+					}
+				},
+				{
+					"name": "idArtist",
+					"description": "ID del Artist que lanzó el álbum",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				}
+			]
+		},
+		{
+			"name": "Song",
+			"description": "Representa una canción.",
+			"fields": [
+				{
+					"name": "idSong",
+					"description": "ID de la canción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "title",
+					"description": "Título de la canción",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 200,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "duration",
+					"description": "Duración de la canción en minutos",
+					"idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+					"settings": {
+					}
+				},
+				{
+					"name": "idAlbum",
+					"description": "ID del álbum al que pertenece la canción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				},
+				{
+					"name": "idGenre",
+					"description": "ID del genero al que pertenece la canción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"description": "Representa una lista de reproducción creada por un usuario.",
+			"fields": [
+				{
+					"name": "idPlaylist",
+					"description": "ID de la lista de reproducción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre de la lista de reproducción",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idUser",
+					"description": "ID del usuario propietario de la lista de reproducción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				}
+			]
+		},
+		{
+			"name": "Genre",
+			"description": "Representa un género musical.",
+			"fields": [
+				{
+					"name": "idGenre",
+					"description": "ID del género musical",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre del género musical",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 50,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"description": "Representa una reseña de un usuario sobre una canción.",
+			"fields": [
+				{
+					"name": "idReview",
+					"description": "ID de la reseña",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "content",
+					"description": "Contenido de la reseña",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 500,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idSong",
+					"description": "ID de la canción reseñada",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				},
+				{
+					"name": "idUser",
+					"description": "ID del usuario que realizó la reseña",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany"
+					}
+				}
+			]
+		}
+	]
+}
+
+- Netflix like model
+
+{
+	"draft": {
+		"name": "Netflix",
+		"description": "Modelo ampliado para la gestión de películas en una plataforma de streaming de video",
+		"icon": "Clapperboard"
+	},
+	"collections": [
+		{
+			"name": "Movie",
+			"description": "Representa una película con detalles como título, género y fecha de lanzamiento.",
+			"fields": [
+				{
+					"name": "idMovie",
+					"description": "Id de la película",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "title",
+					"description": "Título de la película",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 300,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "releaseDate",
+					"description": "Fecha de lanzamiento de la película",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "duration",
+					"description": "Duración de la película en minutos",
+					"idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+					"settings": {}
+				},
+				{
+					"name": "idDirector",
+					"description": "Id del director de la película",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idGenre",
+					"description": "Id del género de la película",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idActor",
+					"description": "Id del actor de la película",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToMany",
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Director",
+			"description": "Representa un director de cine con detalles como nombre y país.",
+			"fields": [
+				{
+					"name": "idDirector",
+					"description": "Id del director",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre del director",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 300,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "country",
+					"description": "País de origen del director",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100
+					}
+				}
+			]
+		},
+		{
+			"name": "Genre",
+			"description": "Representa el género de una película.",
+			"fields": [
+				{
+					"name": "idGenre",
+					"description": "Id del género",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre del género",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Actor",
+			"description": "Representa a un actor que participa en una película.",
+			"fields": [
+				{
+					"name": "idActor",
+					"description": "Id del actor",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre del actor",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 200,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "birthdate",
+					"description": "Fecha de nacimiento del actor",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date"
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "Representa a un usuario registrado en la plataforma.",
+			"fields": [
+				{
+					"name": "idUser",
+					"description": "Id del usuario",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "username",
+					"description": "Nombre de usuario",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "email",
+					"description": "Correo electrónico del usuario",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 200,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"description": "Representa una revisión o crítica de una película por parte de un usuario.",
+			"fields": [
+				{
+					"name": "idReview",
+					"description": "Id de la revisión",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "comment",
+					"description": "Comentario o crítica de la película",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 500,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "rating",
+					"description": "Calificación de la película",
+					"idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+					"settings": {
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idMovie",
+					"description": "Id de la película a la que pertenece la revisión",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idUser",
+					"description": "Id del usuario que realiza la revisión",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"description": "Lista de reproducción creada por un usuario.",
+			"fields": [
+				{
+					"name": "idPlaylist",
+					"description": "Id de la lista de reproducción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "name",
+					"description": "Nombre de la lista de reproducción",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 200,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idMovie",
+					"description": "Id de la película en la lista de reproducción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idUser",
+					"description": "Id del usuario que crea la lista de reproducción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Subscription",
+			"description": "Representa la suscripción de un usuario a un plan de streaming.",
+			"fields": [
+				{
+					"name": "idSubscription",
+					"description": "Id de la suscripción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "plan",
+					"description": "Plan de suscripción (Básico, Estándar, Premium)",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 50,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "startDate",
+					"description": "Fecha de inicio de la suscripción",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "endDate",
+					"description": "Fecha de fin de la suscripción",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idUser",
+					"description": "Id del usuario suscrito",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToOne",
+						"isRequired": true
+					}
+				}
+			]
+		}
+  ]
+}
+
+- Twitch like model
+
+{
+	"draft": {
+		"name": "Twitch",
+		"description": "Modelo para un sistema similar a Twitch",
+		"icon": "Twitch"
+	},
+	"collections": [
+		{
+			"name": "Streamer",
+			"description": "Representa a un streamer en la plataforma.",
+			"fields": [
+				{
+					"name": "idStreamer",
+					"description": "ID del streamer",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "streamerName",
+					"description": "Nombre del streamer",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "followers",
+					"description": "Número de seguidores del streamer",
+					"idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+					"settings": {}
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"description": "Representa un juego que se puede transmitir en la plataforma.",
+			"fields": [
+				{
+					"name": "idGame",
+					"description": "ID del juego",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "gameTitle",
+					"description": "Título del juego",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 150,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "releaseDate",
+					"description": "Fecha de lanzamiento del juego",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date"
+					}
+				}
+			]
+		},
+		{
+			"name": "Stream",
+			"description": "Representa una transmisión en vivo realizada por un streamer.",
+			"fields": [
+				{
+					"name": "idStream",
+					"description": "ID de la transmisión",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "streamTitle",
+					"description": "Título de la transmisión",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 150,
+							"isRequired": true
+					}
+				},
+				{
+					"name": "idStreamer",
+					"description": "ID del streamer que realiza la transmisión",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "OneToMany",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idGame",
+					"description": "ID del juego que se transmite",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne"
+					}
+				}
+			]
+		},
+		{
+			"name": "Viewer",
+			"description": "Representa a un espectador que sigue una transmisión.",
+			"fields": [
+				{
+					"name": "idViewer",
+					"description": "ID del espectador",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "viewerName",
+					"description": "Nombre del espectador",
+					"idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+					"settings": {
+						"length": 100,
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+			"name": "Subscription",
+			"description": "Representa la suscripción de un usuario a un streamer.",
+			"fields": [
+				{
+					"name": "idSubscription",
+					"description": "ID de la suscripción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isPK": true,
+						"isRequired": true
+					}
+				},
+				{
+					"name": "startDate",
+					"description": "Fecha de inicio de la suscripción",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date"
+					}
+				},
+				{
+					"name": "endDate",
+					"description": "Fecha de finalización de la suscripción",
+					"idTypeField": "ace0aaf5-6bb6-4826-9e99-88e09861d600",
+					"settings": {
+						"type": "date"
+					}
+				},
+				{
+					"name": "idStreamer",
+					"description": "ID del streamer al que se suscribe",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				},
+				{
+					"name": "idViewer",
+					"description": "ID del espectador que realiza la suscripción",
+					"idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+					"settings": {
+						"isFK": true,
+						"relationType": "ManyToOne",
+						"isRequired": true
+					}
+				}
+			]
+		},
+		{
+      "name": "ChatRoom",
+      "description": "Represents a chat room for streaming.",
+      "fields": [
+        {
+          "name": "idChatRoom",
+          "description": "Id of the chat room",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true
+          }
+        },
+        {
+          "name": "name",
+          "description": "Name of the chat room",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 100,
+            "isRequired": true
+          }
+        },
+        {
+          "name": "description",
+          "description": "Description of the chat room",
+          "idTypeField": "e38a76e3-65f8-4717-a5c6-05844db49405",
+          "settings": {
+            "length": 255
+          }
+        },
+				{
+          "name": "idStream",
+          "description": "Id of the associated stream",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "ManyToOne"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ChatRoomViewer",
+      "description": "Represents the association between a chat room and a viewer.",
+      "fields": [
+        {
+          "name": "idChatRoomViewer",
+          "description": "Id of the association",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPk": true
+          }
+        },
+        {
+          "name": "idChatRoom",
+          "description": "Id of the chat room",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "ManyToOne"
+          }
+        },
+        {
+          "name": "idViewer",
+          "description": "Id of the viewer",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "ManyToOne"
+          }
+        },
+        {
+          "name": "isActive",
+          "description": "Flag indicating if the viewer is active in the chat room",
+          "idTypeField": "c26a7bb7-2a53-410c-b946-b062b400e7dc",
+          "settings": {
+            "isRequired": true
+          }
+        }
+      ]
+    },
+		    {
+      "name": "Follower",
+      "description": "Represents the followers of a streamer.",
+      "fields": [
+        {
+          "name": "idFollower",
+          "description": "Id of the follower relationship",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isPK": true
+          }
+        },
+        {
+          "name": "idViewer",
+          "description": "Id of the viewer being followed",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "OneToMany"
+          }
+        },
+        {
+          "name": "idStreamer",
+          "description": "Id of the streamer being followed",
+          "idTypeField": "52c13096-498c-429a-9ecc-e3fe80a4f6a7",
+          "settings": {
+            "isFK": true,
+            "relationType": "ManyToOne"
+          }
+        }
+      ]
+    }
+	]
+}

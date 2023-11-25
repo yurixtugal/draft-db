@@ -87,7 +87,7 @@ export async function POST(req: Request) {
 
           const nameFieldSingle = field.name;
           const descriptionFieldSingle = `${field.description} (FK)`;
-          const nameCollectionFrom = field.name.split("id")[1];
+          const nameCollectionFrom = field.settings.collectionRelated;
 
           const idCollectionFrom = arrCollectionsCreated.find(
             (collectionDB) =>
@@ -145,7 +145,7 @@ export async function POST(req: Request) {
           ) {
             console.log("[DRAFT_POST] should add ManyToMany");
 
-            const nameCollectionTo = field.name.split("id")[1];
+            const nameCollectionTo = field.settings.collectionRelated;
 
             const idCollectionTo = arrCollectionsCreated.find(
               (collectionDB) =>

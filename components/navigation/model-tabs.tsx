@@ -41,14 +41,14 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
       <div className="md:hidden"><Logo /></div>
       <div className="flex flex-row items-center">
         <div className="md:basis-3/4">
-          <nav className="flex items-center space-x-10 md:ml-10 pt-6 pb-6 ml-auto">
+          <nav className="flex items-center space-x-10 md:ml-10 pt-3 pb-3 ml-auto">
             {routes.map((route) => (
               <Link
                 key={route.href}
                 href={`${parentRoute}/${route.href}`}
                 className={cn(
-                  'font-medium transition-colors hover:text-green-300',
-                  route.active ? 'text-green-400' : 'text-gray-200'
+                  'text-sm transition-colors hover:text-green-300',
+                  route.active ? 'font-semibold text-green-400' : 'text-gray-200'
                 )}
               >
                 {route.label}
@@ -56,9 +56,9 @@ const NavigationDraft = ({arrDrafts}: CommandItems) => {
             ))}
           </nav>
         </div>
-        <div className="hidden basis-1/4 sm:flex sm:flex-row-reverse sm:items-center  mr-10 pt-6 pb-6">
+        {/*<div className="hidden basis-1/4 sm:flex sm:flex-row-reverse sm:items-center  mr-10 pt-6 pb-6">
           <SearchCommand arrDrafts={arrDrafts}/>
-        </div>
+                </div>*/}
       </div>
   </div>
   <Separator className="bg-gray-700 w-full mb-4" />

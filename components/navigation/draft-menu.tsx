@@ -30,18 +30,18 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
         
         <h2 className=" text-gray-300 flex items-center mt-3 mb-3">
           <ChevronDown
-            className={`h-5 w-5 hover:cursor-pointer ${
+            className={`h-4 w-4 hover:cursor-pointer ${
               showDraft ? "" : "hidden"
             }`}
             onClick={() => setShowDraft(!showDraft)}
           />
           <ChevronUp
-            className={`h-5 w-5 hover:cursor-pointer ${
+            className={`h-4 w-4 hover:cursor-pointer ${
               showDraft ? "hidden" : ""
             }`}
             onClick={() => setShowDraft(!showDraft)}
           />
-          <span className="ml-3">Drafts</span>
+          <span className="ml-3 text-sm">Drafts</span>
         </h2>
         <ScrollArea  className="rounded-md h-[calc(100vh-10rem)]">
         <div className={`${showDraft ? "" : "hidden"}`}>
@@ -51,14 +51,14 @@ const DraftMenu = ({ arrDrafts }: SideBarNavigationProps) => {
               <Link
                 href={`/draft/${draft.idDraft}/model`}
                 key={index}
-                className={`w-full pl-2 mb-1 flex items-center h-9 border-neutral-800 rounded-xl hover:bg-gray-700 transition ${
+                className={`w-full pl-2 mb-1 h-9 flex items-center border-neutral-800 rounded-xl hover:bg-gray-700 transition ${
                   pathname.includes(draft.idDraft)
                     ? "bg-gray-700 text-green-400 font-semibold"
                     : "text-gray-300 "
                 } `}
               >
-                <LucideIcon className="h-5 w-5" />
-                <span className="ml-3">{draft.name}</span>
+                <LucideIcon className="h-4 w-4" />
+                <span className="ml-3 text-sm">{draft.name}</span>
               </Link>
             );
           })}
